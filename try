@@ -1,18 +1,16 @@
 #!/usr/bin/python
 
-##### stratifica per if search_depth == high sin dall inizio (?)
 
 import sys
 
-def filter_autosomic_recessive_variants():
-    global all_variants
+def filter_autosomic_recessive_variants(all_variants):
     for row in all_variants:
         all_col = row.split('\t')
         my_col = all_col[9:]
     
         fa_ch_mo = []
         for member in my_col:
-            if member == '.' or member in possible_members:
+            if member == '.' or member in POSSIBLE_MEMBERS:
                 fa_ch_mo.append('./.')
                 
             else:
@@ -23,18 +21,45 @@ def filter_autosomic_recessive_variants():
         if SEARCH_DEPTH == 'standard':
             if (father=='0/1' or father=='1/0') and (child=='1/1') and (mother=='0/1' or mother=='1/0'):
                 output.append(row)
-            
-            
         
-        # if child[0] != '.' and child[2] != '.' and int(child[0]) != 0 and int(child[2]) != 0:
-        #    if search_depth == "high":
-        #        if child[0] in father or child[0] in mother:
-        #            output.append(row)
-                   
+        elif SEARCH_DEPTH == 'high':
+            if ( (father[0] == '0' and (father[2] not in ZERO_DOT) ) or ((father[0] not in ZERO_DOT) and father[2] == '0') ) and ( (mother[0] == '0' and (mother[2] not in ZERO_DOT) ) or ((mother[0] not in ZERO_DOT) and mother[2] == '0') ) and ((child[0] not in ZERO_DOT) and (child[2] not in ZERO_DOT) and ( (child[0] in father and child[2] in mother) or (child[0] in mother and child[2] in father)    ) ):
+                output.append(row)
+            
         else:
-            print("INVALID DEPTH ARGUMENT, PLEASE INSERT high OR standard")
+            print("[INVALID ARGUMENT] Please insert 'high' or 'standard' ")
 
-    sys.stdout.write('\n'.join(output))
+    sys.stdout.write( ('\n'.join(output)+'\n') )
+
+
+def filter_autosomic_dominant_variants(all_variants):
+    for row in all_variants:
+        all_col = row.split('\t')
+        my_col = all_col[9:]
+
+        fa_ch_mo = []
+        for member in my_col:
+            if member == '.' or member in POSSIBLE_MEMBERS:
+                fa_ch_mo.append('./.')
+
+            else:
+                fa_ch_mo.append(member.split(":")[0])
+
+        father, child, mother = fa_ch_mo
+
+        if SEARCH_DEPTH == 'standard':
+            if (((father[0::2]=='01' or father[0::2]=='10')  and mother[0::2]=='00') or ((mother[0::2]=='01' or mother[0::2]=='10')  and father[0::2]=='00')) and (child[0::2]=='10' or child[0::2]=='01'):
+                output.append(row)
+
+        elif SEARCH_DEPTH == 'high':
+            if ((((father[0::2]=='01' or father[0::2]=='10')  and mother[0::2]=='00') or ((mother[0::2]=='01' or mother[0::2]=='10')  and father[0::2]=='00')) and (child[0::2]=='10' or child[0::2]=='01')) or (father=='0/0' and mother=='0/0' and   (    ( child[0]=='0' and child[2] not in ZERO_DOT )   or  ( child[0] not in ZERO_DOT and child[2]=='0'  ) )   ):
+                output.append(row)
+
+        else:
+            print("[INVALID ARGUMENT] Please insert 'high' or 'standard' ")
+
+    sys.stdout.write( ('\n'.join(output)+'\n') )
+
     
 #############################################
 
@@ -45,22 +70,21 @@ DISEASE_TYPE = sys.argv[1]
 SEARCH_DEPTH = sys.argv[2]    # "high" means we consider also new mutations in child (but at least one acquired from parents)
                               # "standard" means we consider only mutations fully inherited by parents according to the genetic pattern of disease
 
+POSSIBLE_MEMBERS = {"father","child","mother"}
+ZERO_DOT = {"0","."}
+
 output = []
 
 all_variants = input_from_vcf.split('\n')
 all_variants = all_variants[:-1]             # The last element is an empty string
 
 if DISEASE_TYPE == "ar":
-    filter_autosomic_recessive_variants()
+    filter_autosomic_recessive_variants(all_variants)
 
 elif DISEASE_TYPE == 'ad':
-    print("Still to be implemented...")
+    filter_autosomic_dominant_variants(all_variants)
 
 else:
     print("INVALID ARGUMENT, PLEASE INSERT 'ad' OR 'ar' ")
     sys.exit(1)
     
-
-
-
-

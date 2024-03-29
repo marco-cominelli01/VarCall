@@ -54,10 +54,10 @@ all_variants = input_from_vcf.split('\n')
 all_variants = all_variants[1:-1]     # The last element is an empty string
 
 
-if disease_type == "-ar":
+if disease_type == "ar":
     filter_autosomic_recessive_variants()
 
-elif disease_type == '-ad':
+elif disease_type == 'ad':
     pass
 
 else:

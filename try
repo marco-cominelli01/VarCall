@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-##### stratifica per if search_depth == high sin dall inizio:
+##### stratifica per if search_depth == high sin dall inizio (?)
 
 import sys
 
@@ -12,28 +12,27 @@ def filter_autosomic_recessive_variants():
     
         fa_ch_mo = []
         for member in my_col:
-            if member == '.':
-                fa_ch_mo.append(member)
-            
-            elif member in possible_members:
+            if member == '.' or member in possible_members:
                 fa_ch_mo.append('./.')
-
+                
             else:
                 fa_ch_mo.append(member.split(":")[0])
 
         father, child, mother = fa_ch_mo
 
-        if child[0] != '.' and child[2] != '.' and int(child[0]) != 0 and int(child[2]) != 0:
-            if search_depth == "high":
-                if child[0] in father or child[0] in mother:
-                    output.append(row)
-                    
-            elif search_depth == "standard":
-                if (father == '0/1' or father == '1/0') and (mother == '0/1' or mother == '1/0') and (child[0] == '1' or child[2] == '1'):
-                    output.append(row)
+        if SEARCH_DEPTH == 'standard':
+            if (father=='0/1' or father=='1/0') and (child=='1/1') and (mother=='0/1' or mother=='1/0'):
+                output.append(row)
             
-            else:
-                print("INVALID DEPTH ARGUMENT, PLEASE INSERT high OR standard")
+            
+        
+        # if child[0] != '.' and child[2] != '.' and int(child[0]) != 0 and int(child[2]) != 0:
+        #    if search_depth == "high":
+        #        if child[0] in father or child[0] in mother:
+        #            output.append(row)
+                   
+        else:
+            print("INVALID DEPTH ARGUMENT, PLEASE INSERT high OR standard")
 
     sys.stdout.write('\n'.join(output))
     
@@ -41,27 +40,24 @@ def filter_autosomic_recessive_variants():
 
 input_from_vcf = sys.stdin.read()
 
-disease_type = sys.argv[1]
+DISEASE_TYPE = sys.argv[1]
 
-search_depth = sys.argv[2]    # "high" means we consider also new mutations in child (but at least one acquired from parents)
+SEARCH_DEPTH = sys.argv[2]    # "high" means we consider also new mutations in child (but at least one acquired from parents)
                               # "standard" means we consider only mutations fully inherited by parents according to the genetic pattern of disease
-
-family_members = ["father", "mother", "child"]
 
 output = []
 
 all_variants = input_from_vcf.split('\n')
-all_variants = all_variants[1:-1]     # The last element is an empty string
+all_variants = all_variants[:-1]             # The last element is an empty string
 
-
-if disease_type == "ar":
+if DISEASE_TYPE == "ar":
     filter_autosomic_recessive_variants()
 
-elif disease_type == 'ad':
-    pass
+elif DISEASE_TYPE == 'ad':
+    print("Still to be implemented...")
 
 else:
-    print("INVALID ARGUMENT, PLEASE INSERT -ad OR -ar")
+    print("INVALID ARGUMENT, PLEASE INSERT 'ad' OR 'ar' ")
     sys.exit(1)
     
 

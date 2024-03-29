@@ -25,18 +25,19 @@ def filter_autosomic_recessive_variants():
 
         if child[0] != '.' and child[2] != '.' and int(child[0]) != 0 and int(child[2]) != 0:
             if search_depth == "high":
-                if ( child[0] in father or child[0] in mother ):
+                if child[0] in father or child[0] in mother:
                     output.append(row)
+                    
             elif search_depth == "standard":
-                pass ##########################RAGIONARCI
+                if (father == '0/1' or father == '1/0') and (mother == '0/1' or mother == '1/0') and (child[0] == '1' or child[2] == '1'):
+                    output.append(row)
+            
             else:
                 print("INVALID DEPTH ARGUMENT, PLEASE INSERT high OR standard")
 
     sys.stdout.write('\n'.join(output))
     
-
-
-
+#############################################
 
 input_from_vcf = sys.stdin.read()
 

@@ -1,6 +1,6 @@
-1) Implementare nello script i QCs (fastqc, bamqc, multiqc)
+1) Implementare nello script i QCs (fastqc, bamqc, multiqc)											# Qualimap non va
 2) Scrivere la documentazione dello script e renderlo più user-friendly
-3) Capire le varie combinazioni di varianti da filtrare, implementarle poi nello script Python
-4) Provare i casi del 2022
+3) Capire le varie combinazioni di varianti da filtrare, implementarle poi nello script Python		
+4) Provare i casi del 2022																			# Mail Chiara
 5) Guardare le varianti e il coverage su UCSC
 6) Impostare e scrivere il report

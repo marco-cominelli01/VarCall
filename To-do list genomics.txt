@@ -1,0 +1,6 @@
+- Implementare nello script i QCs (fastqc, bamqc, multiqc)
+- Scrivere la documentazione dello script e renderlo più user-friendly
+- Capire le varie combinazioni di varianti da filtrare, implementarle poi nello script Python
+- Provare i casi del 2022
+- Guardare le varianti e il coverage su UCSC
+- Impostare e scrivere il report

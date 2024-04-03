@@ -69,7 +69,7 @@ def filter_autosomic_dominant_variants(all_variants):
 
         # SEARCH_DEPTH is explained below, in the main()
         if SEARCH_DEPTH == 'basic':         # This works as: grep "0/0.*0/1.*0/0"
-            if (father=='0/0') and ( (child[0]=='0' and child[2] not in ZERO_DOT) or (child[0] not in ZERO_DOT and child[2]=='0') ) and (mother=='0/0')
+            if (father=='0/0') and ( (child[0]=='0' and child[2] not in ZERO_DOT) or (child[0] not in ZERO_DOT and child[2]=='0') ) and (mother=='0/0'):
                 output.append(row)
         #elif SEARCH_DEPTH == 'standard':
         #    if ((((father[0::2]=='01' or father[0::2]=='10')  and mother[0::2]=='00') or ((mother[0::2]=='01' or mother[0::2]=='10')  and father[0::2]=='00')) and (child[0::2]=='10' or child[0::2]=='01')) or (father=='0/0' and mother=='0/0' and   (    ( child[0]=='0' and child[2] not in ZERO_DOT )   or  ( child[0] not in ZERO_DOT and child[2]=='0'  ) )   ):

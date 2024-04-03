@@ -104,7 +104,7 @@ do
 
  	# Variant prioritization
     grep "#" ${ar_trio}.vcf > ${ar_trio}_filtered.vcf
-	cat ${ar_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/try "ar" "standard" >> ${ar_trio}_filtered.vcf
+	cat ${ar_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ar" "basic" >> ${ar_trio}_filtered.vcf
 	
 	# Sorting columns by family members name
 	bcftools query -l ${ar_trio}_filtered.vcf | sort > samples.txt     # extract samples, sort names, save to file
@@ -153,7 +153,7 @@ do
 
     # Variant prioritization
     grep "#" ${ad_trio}.vcf > ${ad_trio}_filtered.vcf
-    cat ${ad_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/try "ad" "standard" >> ${ad_trio}_filtered.vcf
+    cat ${ad_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ad" "basic" >> ${ad_trio}_filtered.vcf
 
     # Sorting columns by family members name
     bcftools query -l ${ad_trio}_filtered.vcf | sort > samples.txt     # extract samples, sort names, save to file

@@ -156,8 +156,8 @@ do
     cat ${ad_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ad" "basic" >> ${ad_trio}_filtered.vcf
 
     # Sorting columns by family members name
-    bcftools query -l ${ad_trio}_filtered.vcf | sort > samples.txt     # extract samples, sort names, save to file
-    bcftools view -S samples.txt ${ad_trio}_filtered.vcf > ${ad_trio}_sorted.vcf # print samples in “sorted” order to new file
+    bcftools query -l ${ad_trio}_filtered.vcf | sort > samples.txt     
+    bcftools view -S samples.txt ${ad_trio}_filtered.vcf > ${ad_trio}_sorted.vcf 
 
     # Intersection
     bedtools intersect -a ${ad_trio}_sorted.vcf -b ${file_dir}/targetsPad100.bed -u > ${ad_trio}_final.vcf

@@ -4,3 +4,4 @@
 4) Provare i casi del 2022																			# Mail Chiara
 5) Guardare le varianti e il coverage su UCSC
 6) Impostare e scrivere il report
+7) In greppy descrivere le varie modalità (testarle con diff per vedere quali varianti vengono aggiunte aumentando la profondità della ricerca)

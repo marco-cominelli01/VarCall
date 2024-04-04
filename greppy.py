@@ -28,7 +28,7 @@ def filter_autosomic_recessive_variants(all_variants):
         
         # SEARCH_DEPTH is explained below, in the main()
         if SEARCH_DEPTH == 'basic':         # This works as: grep "0/1.*1/1.*0/1"
-            if ( (father[0]=='0' and father[2]=='1') or (father[0]=='1' and father[2]=='0') ) and (child[0]=='1' and child[1]=='1') and ( (mother[0]=='0' and mother[2]=='1') or (mother[0]=='1' and mother[2]=='0') ):
+            if ( (father[0]=='0' and father[2]=='1') or (father[0]=='1' and father[2]=='0') ) and (child[0]=='1' and child[2]=='1') and ( (mother[0]=='0' and mother[2]=='1') or (mother[0]=='1' and mother[2]=='0') ):
                 output.append(row)
         
         #elif SEARCH_DEPTH == 'standard':

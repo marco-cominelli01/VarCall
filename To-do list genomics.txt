@@ -1,7 +1,11 @@
-1) Implementare nello script i QCs (fastqc, bamqc, multiqc)											# Qualimap non va
-2) Scrivere la documentazione dello script e renderlo più user-friendly
-3) Capire le varie combinazioni di varianti da filtrare, implementarle poi nello script Python		
-4) Provare i casi del 2022																			# Mail Chiara
-5) Guardare le varianti e il coverage su UCSC
-6) Impostare e scrivere il report
-7) In greppy descrivere le varie modalità (testarle con diff per vedere quali varianti vengono aggiunte aumentando la profondità della ricerca)
+1) Implementare nello script i QCs (fastqc, bamqc, multiqc)
+   Li ho già implementati: controllare il discorso del nome uguale, farlo nell'ad e aggiornare la versione della pipeline che ha le funzioni
+
+2) Scrivere la documentazione dello script e renderlo più user-friendly	
+
+3) Provare i casi del 2022
+
+4) Impostare e scrivere il report
+
+5) In greppy implementare e descrivere le varie modalità 
+   (testarle con diff per vedere quali varianti vengono aggiunte aumentando la profondità della ricerca)

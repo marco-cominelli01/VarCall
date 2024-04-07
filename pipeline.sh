@@ -74,9 +74,11 @@ do
 	mkdir "$my_wd/$ar_trio/fastqc/"
 	mkdir "$my_wd/$ar_trio/bam/"
 	mkdir "$my_wd/$ar_trio/bam/bamcov"
-	mkdir "$my_wd/$ar_trio/qualimap/"
 	mkdir "$my_wd/$ar_trio/multiqc/"
 	mkdir "$my_wd/$ar_trio/vcf/"
+	
+	# FASTQC
+	fastqc ${file_dir}/${ar_trio}* -o ${my_wd}/${ar_trio}/fastqc
 	
 	cd ${my_wd}/${ar_trio}/bam
 
@@ -84,6 +86,14 @@ do
 	bowtie2 -U ${file_dir}/${ar_trio}_father.fq.gz -x ${file_dir}/uni --rg-id 'SF' --rg "SM:father" | samtools view -Sb | samtools sort -o ${ar_trio}_father.bam
 	bowtie2 -U ${file_dir}/${ar_trio}_child.fq.gz -x ${file_dir}/uni --rg-id 'SC' --rg "SM:child" | samtools view -Sb | samtools sort -o ${ar_trio}_child.bam
     bowtie2 -U ${file_dir}/${ar_trio}_mother.fq.gz -x ${file_dir}/uni --rg-id 'SM' --rg "SM:mother" | samtools view -Sb | samtools sort -o ${ar_trio}_mother.bam
+	
+	# BAMQC
+	qualimap bamqc -bam ${ar_trio}_father.bam
+	qualimap bamqc -bam ${ar_trio}_child.bam
+	qualimap bamqc -bam ${ar_trio}_mother.bam
+	
+	# MULTIQC
+	multiqc -d ./*_stats  ./../fastqc -o ./../multiqc/
 	
 	# BAM indexing
 	samtools index ${ar_trio}_father.bam 
@@ -123,9 +133,11 @@ do
     mkdir "$my_wd/$ad_trio/fastqc/"
 	mkdir "$my_wd/$ad_trio/bam/"
     mkdir "$my_wd/$ad_trio/bam/bamcov"
-    mkdir "$my_wd/$ad_trio/qualimap/"
     mkdir "$my_wd/$ad_trio/multiqc/"
     mkdir "$my_wd/$ad_trio/vcf/"
+
+	# FASTQC
+	fastqc ${file_dir}/${ad_trio}* -o ${my_wd}/${ad_trio}/fastqc
 
     cd ${my_wd}/${ad_trio}/bam
 	

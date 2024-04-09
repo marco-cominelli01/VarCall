@@ -25,7 +25,10 @@
 my_wd=/home/BCG_2024_mcominelli/project     
         
 # Absolute path of the directory containing all .fq.gz, genome indexing, genome FASTA and BED files
-file_dir=/home/BCG2022_genomics_exam      
+file_dir=/home/BCG2022_genomics_exam
+
+# Absolute path of the BED file for the intersect
+bed_file=/home/BCG2022_genomics_exam/targetsPad100.bed  
           
 # Empty array to accomodate autosomic recessive cases
 declare -a ar_cases=()
@@ -179,7 +182,7 @@ do
     bcftools view -S samples.txt ${ad_trio}_filtered.vcf > ${ad_trio}_sorted.vcf 
 
     # Intersection
-    bedtools intersect -a ${ad_trio}_sorted.vcf -b ${file_dir}/targetsPad100.bed -u > ${ad_trio}_final.vcf
+    bedtools intersect -a ${ad_trio}_sorted.vcf -b ${bed_file} -u > ${ad_trio}_final.vcf
 	
 done
 

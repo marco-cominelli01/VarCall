@@ -9,3 +9,5 @@
 
 5) In greppy implementare e descrivere le varie modalità 
    (testarle con diff per vedere quali varianti vengono aggiunte aumentando la profondità della ricerca)
+   
+6) Fare in modo che si possa scegliere la modalità direttamente da command line oppure all'inizio dello script quando si dichiarano le variabili

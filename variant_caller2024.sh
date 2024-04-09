@@ -22,10 +22,19 @@
 
 
 # Absolute path of already existing empty directory where to save all the outputs
-my_wd=/home/BCG_2024_mcominelli/project     
+my_wd=/home/BCG_2024_mcominelli/true_project     
         
 # Absolute path of the directory containing all .fq.gz, genome indexing, genome FASTA and BED files
-file_dir=/home/BCG2022_genomics_exam      
+file_dir=/home/BCG2024_genomics_exam
+
+# Absolute path of the BED file for the intersect
+bed_file=/home/BCG2024_genomics_exam/exons16Padded_sorted.bed
+
+# Search depth for autosomic recessive cases (more info about this in 'greppy.py') 
+ar_depth='basic'
+
+# Search depth for autosomic dominant cases (more info about this in 'greppy.py') 
+ad_depth='basic'
           
 # Empty array to accomodate autosomic recessive cases
 declare -a ar_cases=()
@@ -87,9 +96,9 @@ do
     bowtie2 -U ${file_dir}/${ar_trio}_mother.fq.gz -x ${file_dir}/uni --rg-id 'SM' --rg "SM:mother" | samtools view -Sb | samtools sort -o ${ar_trio}_mother.bam
 	
 	# BAMQC
-	qualimap bamqc -bam ${ar_trio}_father.bam -outdir ./../QC/{ar_trio}_father
-	qualimap bamqc -bam ${ar_trio}_child.bam -outdir ./../QC/{ar_trio}_child
-	qualimap bamqc -bam ${ar_trio}_mother.bam -outdir ./../QC/{ar_trio}_mother
+	qualimap bamqc -bam ${ar_trio}_father.bam -outdir ./../QC/${ar_trio}_father
+	qualimap bamqc -bam ${ar_trio}_child.bam -outdir ./../QC/${ar_trio}_child
+	qualimap bamqc -bam ${ar_trio}_mother.bam -outdir ./../QC/${ar_trio}_mother
 	
 	# MULTIQC
 	multiqc ./../QC/ --outdir ./../QC/multiqc
@@ -113,7 +122,7 @@ do
 
  	# Variant prioritization
     grep "#" ${ar_trio}.vcf > ${ar_trio}_filtered.vcf
-	cat ${ar_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ar" "basic" >> ${ar_trio}_filtered.vcf
+	cat ${ar_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ar" ${ar_depth} >> ${ar_trio}_filtered.vcf
 	
 	# Sorting columns by family members name
 	bcftools query -l ${ar_trio}_filtered.vcf | sort > samples.txt     # extract samples, sort names, save to file
@@ -146,9 +155,9 @@ do
     bowtie2 -U ${file_dir}/${ad_trio}_mother.fq.gz -x ${file_dir}/uni --rg-id 'SM' --rg "SM:mother" | samtools view -Sb | samtools sort -o ${ad_trio}_mother.bam
 
 	# BAMQC
-	qualimap bamqc -bam ${ad_trio}_father.bam -outdir ./../QC/{ad_trio}_father
-	qualimap bamqc -bam ${ad_trio}_child.bam -outdir ./../QC/{ad_trio}_child
-	qualimap bamqc -bam ${ad_trio}_mother.bam -outdir ./../QC/{ad_trio}_mother
+	qualimap bamqc -bam ${ad_trio}_father.bam -outdir ./../QC/${ad_trio}_father
+	qualimap bamqc -bam ${ad_trio}_child.bam -outdir ./../QC/${ad_trio}_child
+	qualimap bamqc -bam ${ad_trio}_mother.bam -outdir ./../QC/${ad_trio}_mother
 
 	# MULTIQC
 	multiqc ./../QC/ --outdir ./../QC/multiqc
@@ -172,14 +181,14 @@ do
 
     # Variant prioritization
     grep "#" ${ad_trio}.vcf > ${ad_trio}_filtered.vcf
-    cat ${ad_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ad" "basic" >> ${ad_trio}_filtered.vcf
+    cat ${ad_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ad" ${ad_depth} >> ${ad_trio}_filtered.vcf
 
     # Sorting columns by family members name
     bcftools query -l ${ad_trio}_filtered.vcf | sort > samples.txt     
     bcftools view -S samples.txt ${ad_trio}_filtered.vcf > ${ad_trio}_sorted.vcf 
 
     # Intersection
-    bedtools intersect -a ${ad_trio}_sorted.vcf -b ${file_dir}/targetsPad100.bed -u > ${ad_trio}_final.vcf
+    bedtools intersect -a ${ad_trio}_sorted.vcf -b ${bed_file} -u > ${ad_trio}_final.vcf
 	
 done
 

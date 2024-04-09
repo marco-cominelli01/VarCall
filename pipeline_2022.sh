@@ -87,9 +87,9 @@ do
     bowtie2 -U ${file_dir}/${ar_trio}_mother.fq.gz -x ${file_dir}/uni --rg-id 'SM' --rg "SM:mother" | samtools view -Sb | samtools sort -o ${ar_trio}_mother.bam
 	
 	# BAMQC
-	qualimap bamqc -bam ${ar_trio}_father.bam -outdir ./../QC/{ar_trio}_father
-	qualimap bamqc -bam ${ar_trio}_child.bam -outdir ./../QC/{ar_trio}_child
-	qualimap bamqc -bam ${ar_trio}_mother.bam -outdir ./../QC/{ar_trio}_mother
+	qualimap bamqc -bam ${ar_trio}_father.bam -outdir ./../QC/${ar_trio}_father
+	qualimap bamqc -bam ${ar_trio}_child.bam -outdir ./../QC/${ar_trio}_child
+	qualimap bamqc -bam ${ar_trio}_mother.bam -outdir ./../QC/${ar_trio}_mother
 	
 	# MULTIQC
 	multiqc ./../QC/ --outdir ./../QC/multiqc
@@ -146,9 +146,9 @@ do
     bowtie2 -U ${file_dir}/${ad_trio}_mother.fq.gz -x ${file_dir}/uni --rg-id 'SM' --rg "SM:mother" | samtools view -Sb | samtools sort -o ${ad_trio}_mother.bam
 
 	# BAMQC
-	qualimap bamqc -bam ${ad_trio}_father.bam -outdir ./../QC/{ad_trio}_father
-	qualimap bamqc -bam ${ad_trio}_child.bam -outdir ./../QC/{ad_trio}_child
-	qualimap bamqc -bam ${ad_trio}_mother.bam -outdir ./../QC/{ad_trio}_mother
+	qualimap bamqc -bam ${ad_trio}_father.bam -outdir ./../QC/${ad_trio}_father
+	qualimap bamqc -bam ${ad_trio}_child.bam -outdir ./../QC/${ad_trio}_child
+	qualimap bamqc -bam ${ad_trio}_mother.bam -outdir ./../QC/${ad_trio}_mother
 
 	# MULTIQC
 	multiqc ./../QC/ --outdir ./../QC/multiqc

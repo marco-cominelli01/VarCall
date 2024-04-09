@@ -71,14 +71,13 @@ for ar_trio in ${ar_cases[@]}
 do
 	# Creation of all the necessary directories
 	mkdir "$my_wd/$ar_trio/"
-	mkdir "$my_wd/$ar_trio/fastqc/"
+	mkdir "$my_wd/$ar_trio/QC/"
 	mkdir "$my_wd/$ar_trio/bam/"
 	mkdir "$my_wd/$ar_trio/bam/bamcov"
-	mkdir "$my_wd/$ar_trio/multiqc/"
 	mkdir "$my_wd/$ar_trio/vcf/"
 	
 	# FASTQC
-	fastqc ${file_dir}/${ar_trio}* -o ${my_wd}/${ar_trio}/fastqc
+	fastqc ${file_dir}/${ar_trio}* -o ${my_wd}/${ar_trio}/QC
 	
 	cd ${my_wd}/${ar_trio}/bam
 
@@ -88,12 +87,12 @@ do
     bowtie2 -U ${file_dir}/${ar_trio}_mother.fq.gz -x ${file_dir}/uni --rg-id 'SM' --rg "SM:mother" | samtools view -Sb | samtools sort -o ${ar_trio}_mother.bam
 	
 	# BAMQC
-	qualimap bamqc -bam ${ar_trio}_father.bam
-	qualimap bamqc -bam ${ar_trio}_child.bam
-	qualimap bamqc -bam ${ar_trio}_mother.bam
+	qualimap bamqc -bam ${ar_trio}_father.bam -outdir ./../QC/{ar_trio}_father
+	qualimap bamqc -bam ${ar_trio}_child.bam -outdir ./../QC/{ar_trio}_child
+	qualimap bamqc -bam ${ar_trio}_mother.bam -outdir ./../QC/{ar_trio}_mother
 	
 	# MULTIQC
-	multiqc -d ./*_stats  ./../fastqc -o ./../multiqc/
+	multiqc ./../QC/ --outdir ./../QC/multiqc
 	
 	# BAM indexing
 	samtools index ${ar_trio}_father.bam 
@@ -137,7 +136,7 @@ do
     mkdir "$my_wd/$ad_trio/vcf/"
 
 	# FASTQC
-	fastqc ${file_dir}/${ad_trio}* -o ${my_wd}/${ad_trio}/fastqc
+	fastqc ${file_dir}/${ad_trio}* -o ${my_wd}/${ad_trio}/QC
 
     cd ${my_wd}/${ad_trio}/bam
 	
@@ -145,6 +144,14 @@ do
     bowtie2 -U ${file_dir}/${ad_trio}_father.fq.gz -x ${file_dir}/uni --rg-id 'SF' --rg "SM:father" | samtools view -Sb | samtools sort -o ${ad_trio}_father.bam
     bowtie2 -U ${file_dir}/${ad_trio}_child.fq.gz -x ${file_dir}/uni --rg-id 'SC' --rg "SM:child" | samtools view -Sb | samtools sort -o ${ad_trio}_child.bam
     bowtie2 -U ${file_dir}/${ad_trio}_mother.fq.gz -x ${file_dir}/uni --rg-id 'SM' --rg "SM:mother" | samtools view -Sb | samtools sort -o ${ad_trio}_mother.bam
+
+	# BAMQC
+	qualimap bamqc -bam ${ad_trio}_father.bam -outdir ./../QC/{ad_trio}_father
+	qualimap bamqc -bam ${ad_trio}_child.bam -outdir ./../QC/{ad_trio}_child
+	qualimap bamqc -bam ${ad_trio}_mother.bam -outdir ./../QC/{ad_trio}_mother
+
+	# MULTIQC
+	multiqc ./../QC/ --outdir ./../QC/multiqc
 
 	# BAM indexing
     samtools index ${ad_trio}_father.bam

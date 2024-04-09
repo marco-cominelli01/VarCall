@@ -28,7 +28,13 @@ my_wd=/home/BCG_2024_mcominelli/project
 file_dir=/home/BCG2022_genomics_exam
 
 # Absolute path of the BED file for the intersect
-bed_file=/home/BCG2022_genomics_exam/targetsPad100.bed  
+bed_file=/home/BCG2022_genomics_exam/targetsPad100.bed
+
+# Search depth for autosomic recessive cases (more info about this in 'greppy.py') 
+ar_depth='basic'
+
+# Search depth for autosomic dominant cases (more info about this in 'greppy.py') 
+ad_depth='basic'
           
 # Empty array to accomodate autosomic recessive cases
 declare -a ar_cases=()
@@ -116,7 +122,7 @@ do
 
  	# Variant prioritization
     grep "#" ${ar_trio}.vcf > ${ar_trio}_filtered.vcf
-	cat ${ar_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ar" "basic" >> ${ar_trio}_filtered.vcf
+	cat ${ar_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ar" ${ar_depth} >> ${ar_trio}_filtered.vcf
 	
 	# Sorting columns by family members name
 	bcftools query -l ${ar_trio}_filtered.vcf | sort > samples.txt     # extract samples, sort names, save to file
@@ -175,7 +181,7 @@ do
 
     # Variant prioritization
     grep "#" ${ad_trio}.vcf > ${ad_trio}_filtered.vcf
-    cat ${ad_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ad" "basic" >> ${ad_trio}_filtered.vcf
+    cat ${ad_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ad" ${ad_depth} >> ${ad_trio}_filtered.vcf
 
     # Sorting columns by family members name
     bcftools query -l ${ad_trio}_filtered.vcf | sort > samples.txt     

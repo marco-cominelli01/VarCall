@@ -131,7 +131,7 @@ do
     bcftools view -S samples.txt ${ar_trio}_filtered.vcf > ${ar_trio}_sorted.vcf # print samples in “sorted” order to new file
 
     # Intersection 
-    bedtools intersect -a ${ar_trio}_sorted.vcf -b ${file_dir}/targetsPad100.bed -u > ${ar_trio}_final.vcf
+    bedtools intersect -a ${ar_trio}_sorted.vcf -b ${bed_file} -u > ${ar_trio}_final.vcf
 	
 done
 

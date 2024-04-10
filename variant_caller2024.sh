@@ -18,8 +18,10 @@
 # You need:
 # 1- An empty directory (see the first line of code)
 # 2- This script (saved in the directory that contains the directory created at point 1)
-# 3- The python script "greppy.py" (saved in the same directory of this script)
+# 3- The python script "greppy" (saved in the same directory of this script)
 
+# Absolute path of the directory containing this script and "greppy" (must be the directory above the one in which all outputs will be saved)
+script_dir=/home/BCG_2024_mcominelli
 
 # Absolute path of already existing empty directory where to save all the outputs
 my_wd=/home/BCG_2024_mcominelli/true_project     
@@ -122,7 +124,7 @@ do
 
  	# Variant prioritization
     grep "#" ${ar_trio}.vcf > ${ar_trio}_filtered.vcf
-	cat ${ar_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ar" ${ar_depth} >> ${ar_trio}_filtered.vcf
+	cat ${ar_trio}.vcf | grep -v "#" | python ${script_dir}/greppy "ar" ${ar_depth} >> ${ar_trio}_filtered.vcf
 	
 	# Sorting columns by family members name
 	bcftools query -l ${ar_trio}_filtered.vcf | sort > samples.txt     # extract samples, sort names, save to file
@@ -181,7 +183,7 @@ do
 
     # Variant prioritization
     grep "#" ${ad_trio}.vcf > ${ad_trio}_filtered.vcf
-    cat ${ad_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ad" ${ad_depth} >> ${ad_trio}_filtered.vcf
+    cat ${ad_trio}.vcf | grep -v "#" | python ${script_dir}/greppy "ad" ${ad_depth} >> ${ad_trio}_filtered.vcf
 
     # Sorting columns by family members name
     bcftools query -l ${ad_trio}_filtered.vcf | sort > samples.txt     

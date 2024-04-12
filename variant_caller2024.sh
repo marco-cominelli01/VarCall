@@ -6,7 +6,7 @@
 # To do so, the type of the disease (either autosomic dominant -ad or recessive -ar) must     #
 # be assumed and specified at the beginning.												  #
 # The variant caller used is freebayes and is possible to specify the depth at which looking  #
-# for variants: open "greppy.py" with a text editor to find out more.                         #
+# for variants: open "greppy" with a text editor to find out more.                            #
 # At the end, all the necessary QCs are generated (fastqc, bamqc and multiqc)                 #
 ###############################################################################################
 # How to run this script: nohup ./pipeline.sh -ar case178 -ad case210 case221 case240 &       #
@@ -32,10 +32,10 @@ file_dir=/home/BCG2024_genomics_exam
 # Absolute path of the BED file for the intersect
 bed_file=/home/BCG2024_genomics_exam/exons16Padded_sorted.bed
 
-# Search depth for autosomic recessive cases (more info about this in 'greppy.py') 
+# Search depth for autosomic recessive cases (more info about this in 'greppy') 
 ar_depth='basic'
 
-# Search depth for autosomic dominant cases (more info about this in 'greppy.py') 
+# Search depth for autosomic dominant cases (more info about this in 'greppy') 
 ad_depth='basic'
           
 # Empty array to accomodate autosomic recessive cases
@@ -56,7 +56,7 @@ while [ $# -gt 0 ]; do
             current_param="-ar"
             shift
             ;;
-         -h) 
+         -h)                                                                                           #### HERE ####
 	    echo "Variant Calling
 		
 		Parameters are -ad and -ar for autosomic dominant and autosomic 
@@ -140,7 +140,6 @@ for ad_trio in ${ad_cases[@]}
 do
 	# Creation of all the necessary directories
     mkdir "$my_wd/$ad_trio/"
-    mkdir "$my_wd/$ad_trio/fastqc/"
 	mkdir "$my_wd/$ad_trio/bam/"
     mkdir "$my_wd/$ad_trio/bam/bamcov"
     mkdir "$my_wd/$ad_trio/multiqc/"
@@ -187,7 +186,7 @@ do
 
     # Sorting columns by family members name
     bcftools query -l ${ad_trio}_filtered.vcf | sort > samples.txt     
-    bcftools view -S samples.txt ${ad_trio}_filtered.vcf > ${ad_trio}_sorted.vcf 
+    bcftools view -S samples.txt ${ad_trio}_filtered.vcf > ${ad_trio}_sorted.vcf
 
     # Intersection
     bedtools intersect -a ${ad_trio}_sorted.vcf -b ${bed_file} -u > ${ad_trio}_final.vcf

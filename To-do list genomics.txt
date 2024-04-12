@@ -1,13 +1,9 @@
-1) Implementare nello script i QCs (fastqc, bamqc, multiqc)
-   Li ho già implementati: controllare il discorso del nome uguale, farlo nell'ad e aggiornare la versione della pipeline che ha le funzioni
+1) Completare bene la versione dello script con le funzioni ed aggiornarlo a 2024
 
-2) Scrivere la documentazione dello script e renderlo più user-friendly	
+2) Scrivere bene la documentazione dello script
 
-3) Provare i casi del 2022
+3) Impostare e scrivere il report
 
-4) Impostare e scrivere il report
-
-5) In greppy implementare e descrivere le varie modalità 
+4) In greppy implementare e descrivere le varie modalità, almeno quella sopra a basic 
    (testarle con diff per vedere quali varianti vengono aggiunte aumentando la profondità della ricerca)
-   
-6) Fare in modo che si possa scegliere la modalità direttamente da command line oppure all'inizio dello script quando si dichiarano le variabili
+ 

@@ -140,9 +140,9 @@ for ad_trio in ${ad_cases[@]}
 do
 	# Creation of all the necessary directories
     mkdir "$my_wd/$ad_trio/"
+	mkdir "$my_wd/$ad_trio/QC"
 	mkdir "$my_wd/$ad_trio/bam/"
     mkdir "$my_wd/$ad_trio/bam/bamcov"
-    mkdir "$my_wd/$ad_trio/multiqc/"
     mkdir "$my_wd/$ad_trio/vcf/"
 
 	# FASTQC

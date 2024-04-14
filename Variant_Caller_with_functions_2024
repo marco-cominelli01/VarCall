@@ -6,7 +6,7 @@
 # To do so, the type of the disease (either autosomic dominant -ad or recessive -ar) must     #
 # be assumed and specified at the beginning.												  #
 # The variant caller used is freebayes and is possible to specify the depth at which looking  #
-# for variants: open "greppy.py" with a text editor to find out more.                         #
+# for variants: open "greppy" with a text editor to find out more.                            #
 # At the end, all the necessary QCs are generated (fastqc, bamqc and multiqc)                 #
 ###############################################################################################
 # How to run this script: nohup ./pipeline.sh -ar case178 -ad case210 case221 case240 &       #
@@ -18,23 +18,45 @@
 # You need:
 # 1- An empty directory (see the first line of code)
 # 2- This script (saved in the directory that contains the directory created at point 1)
-# 3- The python script "greppy.py" (saved in the same directory of this script)
+# 3- The python script "greppy" (saved in the same directory of this script)
 
+# Absolute path of the directory containing this script and "greppy" (must be the directory above the one in which all outputs will be saved)
+script_dir=/home/BCG_2024_mcominelli
 
 # Absolute path of already existing empty directory where to save all the outputs
-my_wd=/home/BCG_2024_mcominelli/project     
+my_wd=/home/BCG_2024_mcominelli/true_project     
         
 # Absolute path of the directory containing all .fq.gz, genome indexing, genome FASTA and BED files
-file_dir=/home/BCG2022_genomics_exam      
+file_dir=/home/BCG2024_genomics_exam
+
+# Absolute path of the BED file for the intersect
+bed_file=/home/BCG2024_genomics_exam/exons16Padded_sorted.bed
+
+# Search depth for autosomic recessive cases (more info about this in 'greppy') 
+ar_depth='basic'
+
+# Search depth for autosomic dominant cases (more info about this in 'greppy') 
+ad_depth='basic'     
           
 create_directories() {
 	mkdir "$my_wd/$1/"
-	mkdir "$my_wd/$1/fastqc/"
+	mkdir "my_wd/$1/QC"
 	mkdir "$my_wd/$1/bam/"
 	mkdir "$my_wd/$1/bam/bamcov"
-	mkdir "$my_wd/$1/qualimap/"
-	mkdir "$my_wd/$1/multiqc/"
 	mkdir "$my_wd/$1/vcf/"
+}
+
+quality_controls() {
+	# FASTQC
+	fastqc ${file_dir}/${1}* -o ${my_wd}/${1}/QC
+	
+	# BAMQC
+	qualimap bamqc -bam ${1}_father.bam -outdir ./../QC/${1}_father
+	qualimap bamqc -bam ${1}_child.bam -outdir ./../QC/${1}_child
+	qualimap bamqc -bam ${1}_mother.bam -outdir ./../QC/${1}_mother
+
+	# MULTIQC
+	multiqc ./../QC/ --outdir ./../QC/multiqc
 }
 
 bowtie_alignment() {
@@ -110,6 +132,9 @@ do
 	# Alignment
 	bowtie_alignment $ar_trio
 	
+	# FASTQC + BAMQC + MULTIQC
+	quality_controls $ar_trio
+	
 	# BAM indexing
 	bam_indexing $ar_trio
 	
@@ -145,6 +170,9 @@ do
 	
 	# Alignment
     bowtie_alignment $ad_trio
+	
+	# FASTQC + BAMQC + MULTIQC
+	quality_controls $ad_trio
 
 	# BAM indexing
     bam_indexing $ad_trio

@@ -32,9 +32,12 @@ def filter_autosomic_recessive_variants(all_variants):
                 output.append(row)
         
         elif SEARCH_DEPTH == 'standard':
-            if (( (father[0]=='0' and father[2]=='1') or (father[0]=='1' and father[2]=='0') ) and (child[0]=='1' and child[2]=='1') and ( (mother[0]=='0' and mother[2]=='1') or (mother[0]=='1' and mother[2]=='0') ))
-                or 
-        #        output.append(row)
+            if (( (father[0]=='0' and father[2]=='1') or (father[0]=='1' and father[2]=='0') ) and (child[0]=='1' and child[2]=='1') 
+                and ( (mother[0]=='0' and mother[2]=='1') or (mother[0]=='1' and mother[2]=='0') )) 
+                or (mother[0]=='0' and father[0]=='0' and mother[2] not in ZERO_DOT and father[2] not in ZERO_DOT and (   
+                       (child[0]==mother[2] and child[2]==father[2] or (child[0]==father[2] and child[2]==mother[2]))  )    
+                    ):
+                output.append(row)
 
         else:
             print("[INVALID ARGUMENT] Please insert 'basic', 'standard' or 'high' ")

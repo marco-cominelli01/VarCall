@@ -51,9 +51,9 @@ quality_controls() {
 	fastqc ${file_dir}/${1}* -o ${my_wd}/${1}/QC
 	
 	# BAMQC
-	qualimap bamqc -bam ${1}_father.bam -outdir ./../QC/${1}_father
-	qualimap bamqc -bam ${1}_child.bam -outdir ./../QC/${1}_child
-	qualimap bamqc -bam ${1}_mother.bam -outdir ./../QC/${1}_mother
+	qualimap bamqc -bam ${1}_father.bam -gff ${bed_file} -outdir ./../QC/${1}_father
+	qualimap bamqc -bam ${1}_child.bam -gff ${bed_file} -outdir ./../QC/${1}_child
+	qualimap bamqc -bam ${1}_mother.bam -gff ${bed_file} -outdir ./../QC/${1}_mother
 
 	# MULTIQC
 	multiqc ./../QC/ --outdir ./../QC/multiqc

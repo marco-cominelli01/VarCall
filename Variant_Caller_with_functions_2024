@@ -7,7 +7,7 @@
 # be assumed and specified at the beginning.												  #
 # The variant caller used is freebayes and is possible to specify the depth at which looking  #
 # for variants: open "greppy" with a text editor to find out more.                            #
-# At the end, all the necessary QCs are generated (fastqc, bamqc and multiqc)                 #
+# At the end, all the necessary QCs are generated (aggregated by means of multiqc)            #
 ###############################################################################################
 # How to run this script: nohup ./pipeline.sh -ar case178 -ad case210 case221 case240 &       #
 ###############################################################################################
@@ -150,7 +150,7 @@ do
 
  	# Variant prioritization
     grep "#" ${ar_trio}.vcf > ${ar_trio}_filtered.vcf
-	cat ${ar_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ar" "basic" >> ${ar_trio}_filtered.vcf
+	cat ${ar_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ar" ${ar_depth} >> ${ar_trio}_filtered.vcf
 	
 	# Sorting columns by family members name
 	sorting $ar_trio 
@@ -189,13 +189,13 @@ do
 
     # Variant prioritization
     grep "#" ${ad_trio}.vcf > ${ad_trio}_filtered.vcf
-    cat ${ad_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ad" "basic" >> ${ad_trio}_filtered.vcf
+    cat ${ad_trio}.vcf | grep -v "#" | python /home/BCG_2024_mcominelli/greppy "ad" ${ad_depth} >> ${ad_trio}_filtered.vcf
 
     # Sorting columns by family members name
     sorting $ad_trio 
 
     # Intersection
-    bedtools intersect -a ${ad_trio}_sorted.vcf -b ${bed_file}-u > ${ad_trio}_final.vcf
+    bedtools intersect -a ${ad_trio}_sorted.vcf -b ${bed_file} -u > ${ad_trio}_final.vcf
 	
 done
 

@@ -40,7 +40,7 @@ ad_depth='basic'
           
 create_directories() {
 	mkdir "$my_wd/$1/"
-	mkdir "my_wd/$1/QC"
+	mkdir "$my_wd/$1/QC"
 	mkdir "$my_wd/$1/bam/"
 	mkdir "$my_wd/$1/bam/bamcov"
 	mkdir "$my_wd/$1/vcf/"

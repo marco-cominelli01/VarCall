@@ -156,7 +156,7 @@ do
 	sorting $ar_trio 
 
     # Intersection 
-    bedtools intersect -a ${ar_trio}_sorted.vcf -b ${file_dir}/targetsPad100.bed -u > ${ar_trio}_final.vcf
+    bedtools intersect -a ${ar_trio}_sorted.vcf -b ${bed_file} -u > ${ar_trio}_final.vcf
 	
 done
 
@@ -195,7 +195,7 @@ do
     sorting $ad_trio 
 
     # Intersection
-    bedtools intersect -a ${ad_trio}_sorted.vcf -b ${file_dir}/targetsPad100.bed -u > ${ad_trio}_final.vcf
+    bedtools intersect -a ${ad_trio}_sorted.vcf -b ${bed_file}-u > ${ad_trio}_final.vcf
 	
 done
 

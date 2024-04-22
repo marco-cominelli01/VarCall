@@ -72,9 +72,8 @@ def filter_autosomic_dominant_variants(all_variants):
             if (father=='0/0') and ( (child[0]=='0' and child[2] not in ZERO_DOT) or (child[0] not in ZERO_DOT and child[2]=='0') ) and (mother=='0/0'):
                 output.append(row)
         elif SEARCH_DEPTH == 'standard':
-            if ((father=='0/0') and ( (child[0]=='0' and child[2] not in ZERO_DOT) or (child[0] not in ZERO_DOT and child[2]=='0') ) and (mother=='0/0')) 
-                or ( father=='0/0' and (mother[0]=='0' and mother[2] not in ZERO_DOT) and ((child[0]=='0' and child[2]==mother[2]) or (child[0]==mother[2] and child[2]=='0') ))
-                or mother=='0/0' and (father[0]=='0' and father[2] not in ZERO_DOT) and ((child[0]=='0' and child[2]==father[2]) or (child[0]==father[2] and child[2]=='0') )):
+            if ((father=='0/0') and ( (child[0]=='0' and child[2] not in ZERO_DOT) or (child[0] not in ZERO_DOT and child[2]=='0') ) and (mother=='0/0')) or ( father=='0/0' and (mother[0]=='0' and mother[2] not in ZERO_DOT) and ((child[0]=='0' and child[2]==mother[2]) or (child[0]==mother[2] and child[2]=='0') ))
+                or (mother=='0/0' and (father[0]=='0' and father[2] not in ZERO_DOT) and ((child[0]=='0' and child[2]==father[2]) or (child[0]==father[2] and child[2]=='0') ) ):
                 output.append(row)
         else:
             print("[INVALID ARGUMENT] Please insert either 'basic' or 'standard' ")

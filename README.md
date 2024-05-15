@@ -24,7 +24,7 @@ For a detailed overview of our project, refer to the [Project Presentation](proj
 
 
 ## How to Use This Repository
-If you're interested in running the analysis yourself, please see the `VarCall_pipeline.sh` script and the `greppy` script.
+If you're interested in running the analysis yourself, please see the [VarCall_pipeline.sh] bash script and the [greppy] python script. 
 
 
 ## Contact

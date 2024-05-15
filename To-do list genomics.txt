@@ -1,9 +1,0 @@
-1) Completare bene la versione dello script con le funzioni ed aggiornarlo a 2024
-
-2) Scrivere bene la documentazione dello script
-
-3) Impostare e scrivere il report
-
-4) In greppy implementare e descrivere le varie modalità, almeno quella sopra a basic 
-   (testarle con diff per vedere quali varianti vengono aggiunte aumentando la profondità della ricerca)
- 

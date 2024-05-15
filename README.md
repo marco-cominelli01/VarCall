@@ -15,6 +15,7 @@ These genetic variations can be inherited from parents or arise spontaneously (d
 Specifically monogenic genetic diseases are caused by mutations in a single gene and they can be grouped into two main categories:
 - Dominant diseases: only one copy of the mutated gene is necessary to cause the disease.
 - Recessive diseases: both copies of the mutated gene are necessary to cause the disease.
+
 The current project focuses on autosomal monogenic rare genetic disorders, which are called ‘autosomal’ because the mutated gene is on an
 autosome (specifically the chromosome 16) and ‘rare’ due to their low frequency within the population (less than 1 in 1,000 people).
 In particular, the aim of the project is to diagnose these diseases in 10 patients using both their exome sequencing data and that of their
